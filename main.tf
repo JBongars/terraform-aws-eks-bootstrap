@@ -14,11 +14,19 @@ module "eks_blueprints" {
   managed_node_groups = {
     mg_5 = {
       node_group_name = "managed-ondemand"
-      instance_types  = ["m5.large"]
+      instance_types  = ["t3.micro"]
       min_size        = 3
-      max_size        = 3
+      max_size        = 5
       desired_size    = 3
       subnet_ids      = module.vpc.private_subnets
+    }
+  }
+
+  platform_teams = {
+    admin = {
+      users = [
+        data.aws_caller_identity.current.arn
+      ]
     }
   }
 
@@ -88,8 +96,9 @@ module "vpc" {
   private_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 10)]
 
   enable_nat_gateway   = true
-  single_nat_gateway   = true
+  create_igw           = true
   enable_dns_hostnames = true
+  single_nat_gateway   = true
 
   # Manage so we can name
   manage_default_network_acl    = true

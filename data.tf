@@ -9,3 +9,10 @@ data "aws_availability_zones" "available" {
     values = ["opt-in-not-required"]
   }
 }
+
+data "aws_eks_cluster" "cluster" {
+  name = module.eks_blueprints.eks_cluster_id
+}
+
+data "aws_caller_identity" "current" {
+}
