@@ -1,4 +1,4 @@
-﻿# resource "aws_vpc" "etp_vpc" {
+# resource "aws_vpc" "etp_vpc" {
 #   cidr_block = "10.0.0.0/16"
 #   name       = "etp_vpc"
 

@@ -120,3 +120,70 @@ module "vpc" {
 
   tags = local.tags
 }
+
+module "ecr" {
+  source = "terraform-aws-modules/ecr/aws"
+
+  repository_name = "etp_ecr"
+
+  repository_read_write_access_arns = [data.aws_caller_identity.current.arn]
+  repository_lifecycle_policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1,
+        description  = "Keep last 30 images",
+        selection = {
+          tagStatus     = "tagged",
+          tagPrefixList = ["v"],
+          countType     = "imageCountMoreThan",
+          countNumber   = 30
+        },
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_key_pair" "etp_development_server_key_pair" {
+  key_name   = "etp_development_server_key_pair"
+  public_key = file("./keys/etp_development_server_key.pub")
+}
+
+resource "aws_elb" "etp_development_server_ap" {
+  name               = "etp-development-server-ap"
+  availability_zones = module.vpc.azs
+  listener {
+    instance_port     = 22
+    instance_protocol = "TCP"
+    lb_port           = 22
+    lb_protocol       = "TCP"
+  }
+
+  instances                 = [module.ec2_instance.id]
+  cross_zone_load_balancing = true
+
+  tags = {
+    "project" = "etp"
+    "name"    = "etp_development_server_ap"
+  }
+}
+
+module "ec2_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+  name    = "etp_development_server"
+
+  ami                    = data.aws_ami.ubuntu.image_id
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.etp_development_server_key_pair.id
+  monitoring             = true
+  vpc_security_group_ids = [module.vpc.default_security_group_id]
+  subnet_id              = module.vpc.private_subnets[0]
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
