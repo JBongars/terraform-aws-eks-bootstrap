@@ -18,3 +18,7 @@ output "ecr_arn" {
 output "ecr_endpoint" {
   value = module.ecr.repository_url
 }
+
+output "etp_test_server_url" {
+  value = aws_lb.etp_development_server_lb.dns_name
+}
