@@ -11,12 +11,12 @@ output "eks_cluster_endpoint" {
   value = module.eks_blueprints.eks_cluster_endpoint
 }
 
-output "ecr_arn" {
-  value = module.ecr.repository_arn
+output "nextjs_repo_arn" {
+  value = module.nextapp_repo.repository_arn
 }
 
-output "ecr_endpoint" {
-  value = module.ecr.repository_url
+output "nextjs_repo_endpoint" {
+  value = module.nextapp_repo.repository_url
 }
 
 output "etp_test_server_url" {

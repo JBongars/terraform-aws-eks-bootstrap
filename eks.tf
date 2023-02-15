@@ -11,12 +11,12 @@
   managed_node_groups = {
     mng = {
       node_group_name = "managed-ondemand"
-      instance_types  = ["t2.small"] // smallest recommended instance type
+      instance_types  = ["t2.medium"] // smallest recommended instance type
       subnet_ids      = module.vpc.private_subnets
 
-      desired_size = 3
+      desired_size = 2
       max_size     = 3
-      min_size     = 3
+      min_size     = 2
     }
   }
 
