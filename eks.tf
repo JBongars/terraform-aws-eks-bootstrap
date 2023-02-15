@@ -8,10 +8,18 @@
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnets
 
+  map_users = [{
+    userarn  = local.eks_manager.arn,
+    username = local.eks_manager.username,
+    groups = [
+      "system:masters"
+    ]
+  }]
+
   managed_node_groups = {
     mng = {
       node_group_name = "managed-ondemand"
-      instance_types  = ["t2.medium"] // smallest recommended instance type
+      instance_types  = ["t3.small"] // smallest recommended instance type
       subnet_ids      = module.vpc.private_subnets
 
       desired_size = 2

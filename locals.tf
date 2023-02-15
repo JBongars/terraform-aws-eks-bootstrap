@@ -1,15 +1,19 @@
-
+﻿
 locals {
   name = basename(path.cwd)
   # var.cluster_name is for Terratest
-  cluster_name = coalesce(var.cluster_name, local.name)
-  region       = "us-west-2"
+  cluster_name = var.cluster_name
+  region       = var.region
 
-  vpc_cidr = "10.0.0.0/16"
+  vpc_cidr = var.vpc_cidr
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
+  eks_manager = var.eks_manager
+
   tags = {
-    Blueprint  = local.name
-    GithubRepo = "github.com/aws-ia/terraform-aws-eks-blueprints"
+    environment = var.environment
+    projectName = var.project_name,
+    Blueprint   = local.name
+    GithubRepo  = "github.com/aws-ia/terraform-aws-eks-blueprints"
   }
 }
