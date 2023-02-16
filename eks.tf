@@ -1,4 +1,4 @@
-﻿module "eks_blueprints" {
+module "eks_blueprints" {
   source = "github.com/aws-ia/terraform-aws-eks-blueprints.git"
 
   cluster_name    = local.cluster_name

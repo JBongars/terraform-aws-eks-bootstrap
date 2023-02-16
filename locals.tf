@@ -1,4 +1,4 @@
-﻿
+
 locals {
   name = basename(path.cwd)
   # var.cluster_name is for Terratest

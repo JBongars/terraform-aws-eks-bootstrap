@@ -1,4 +1,4 @@
-﻿
+
 
 resource "aws_key_pair" "etp_development_server_key_pair" {
   key_name   = "etp_development_server_key_pair"
@@ -46,9 +46,9 @@ resource "aws_lb_target_group" "etp_development_server_lb_target_group" {
   # target_type = "ip"
   vpc_id = module.vpc.vpc_id
 
-  // prevents following error:
-  // Error: deleting Target Group: ResourceInUse: Target group is currently in use by a listener or a rule
-  // source: https://stackoverflow.com/questions/57183814/error-deleting-target-group-resourceinuse-when-changing-target-ports-in-aws-thr
+  # prevents following error:
+  # Error: deleting Target Group: ResourceInUse: Target group is currently in use by a listener or a rule
+  # source: https://stackoverflow.com/questions/57183814/error-deleting-target-group-resourceinuse-when-changing-target-ports-in-aws-thr
   lifecycle {
     create_before_destroy = true
   }
