@@ -1,6 +1,5 @@
 # Deployment
 
-kubectl create namespace argocd
 helm install -f .\values.yaml -n argocd argocd .
 
 # Inspect Dashboard
