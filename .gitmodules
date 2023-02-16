@@ -1,0 +1,3 @@
+[submodule "helm/nextapp"]
+	path = helm/nextapp
+	url = https://github.com/JBongars/helm-next-deployment-template
