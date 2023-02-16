@@ -1,17 +1,21 @@
-project: default
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
   name: nextapp
-  namespace: nextapp
-source:
-  repoURL: 'https://github.com/JBongars/helm-next-deployment-template.git'
-  targetRevision: HEAD
-destination:
-  server: 'https://kubernetes.default.svc'
-  namespace: nextapp
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-    - CreateNamespace=true
-    - Replace=true
+  namespace: {{ .Release.Namespace }} 
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/JBongars/helm-next-deployment-template.git'
+    targetRevision: HEAD
+    path: .
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: nextapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
