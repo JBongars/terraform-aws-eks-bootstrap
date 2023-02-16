@@ -1,5 +1,0 @@
-﻿apiVersion: v2
-name: nextjs-app
-type: application
-version: 0.1.0
-description: Demo for nextjs deployment

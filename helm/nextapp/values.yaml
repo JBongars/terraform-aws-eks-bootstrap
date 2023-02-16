@@ -1,9 +1,0 @@
-﻿image:
-  repository: 925272389726.dkr.ecr.us-west-2.amazonaws.com/nextapp-repo
-  tag: latest
-
-replicaCount: 2
-sourcePort: "3000"
-targetPort: "80"
-
-path: "/"
