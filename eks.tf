@@ -23,7 +23,7 @@
       subnet_ids      = module.vpc.private_subnets
 
       desired_size = 2
-      max_size     = 3
+      max_size     = 5
       min_size     = 2
     }
   }
