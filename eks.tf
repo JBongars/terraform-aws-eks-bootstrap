@@ -19,12 +19,12 @@ module "eks_blueprints" {
   managed_node_groups = {
     mng = {
       node_group_name = "managed-ondemand"
-      instance_types  = ["t3.small"] // smallest recommended instance type
+      instance_types  = [local.eks_node_group_config.node_group_instance_type] // smallest recommended instance type
       subnet_ids      = module.vpc.private_subnets
 
-      desired_size = 2
-      max_size     = 5
-      min_size     = 2
+      desired_size = local.eks_node_group_config.desired_node_group_size
+      max_size     = local.eks_node_group_config.max_node_group_size
+      min_size     = local.eks_node_group_config.desired_node_group_size
     }
   }
 

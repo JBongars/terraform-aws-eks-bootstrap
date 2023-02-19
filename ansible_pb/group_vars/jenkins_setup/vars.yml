@@ -1,0 +1,4 @@
+jenkins_dns: ip-10-0-10-180.us-west-2.compute.internal
+jenkins_key_path: ../keys/etp_jenkins_key.pem
+bastian_key_path: ../keys/etp_bastion_host_key.pem
+bastian_dns: etp-bastion-host-lb-2628c9de3539e015.elb.us-west-2.amazonaws.com

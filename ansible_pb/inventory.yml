@@ -1,0 +1,10 @@
+jenkins_server:
+  hosts:
+    ip-10-0-10-180.us-west-2.compute.internal:
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: "{{ jenkins_key_path }}"
+      ansible_ssh_common_args: '-o ProxyCommand="ssh -i {{ bastian_key_path }} -W %h:%p ubuntu@{{ bastian_dns }}" -o StrictHostKeyChecking=no'
+      vars:
+        jenkins_key_path: "{{ jenkins_key_path }}"
+        bastian_key_path: "{{ bastian_key_path }}"
+        bastian_dns: "{{ bastian_dns }}"

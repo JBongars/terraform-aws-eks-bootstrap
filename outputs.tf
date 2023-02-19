@@ -19,6 +19,10 @@ output "nextjs_repo_endpoint" {
   value = module.nextapp_repo.repository_url
 }
 
-output "etp_test_server_url" {
-  value = aws_lb.etp_development_server_lb.dns_name
-}
+# output "etp_bastion_dns" {
+#   value = aws_lb.etp_bastion_host_lb.dns_name
+# }
+
+# output "etp_jenkins_dns" {
+#   value = module.etp_jenkins.private_dns
+# }

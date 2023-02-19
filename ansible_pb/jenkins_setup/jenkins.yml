@@ -1,0 +1,72 @@
+---
+- name: Configure Jenkins on EC2 instance via bastion host
+  hosts: jenkins_server
+  gather_facts: no
+  become: yes
+  remote_user: ubuntu
+  serial: 1
+
+  tasks:
+    - name: Install Java
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Install Jenkins apt key
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins apt repository
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian-stable binary/
+        state: present
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins service
+      systemd:
+        name: jenkins
+        state: started
+
+    - name: Wait for 3 minutes
+      pause:
+        minutes: 3
+
+    # - name: Wait for Jenkins to start up
+    #   uri:
+    #     url: http://localhost:8080/
+    #     method: GET
+    #     return_content: yes
+    #     status_code: 200
+    #     timeout: 60
+    #   register: jenkins_up
+    #   until: jenkins_up.status == 200
+    #   retries: 10
+
+    - name: Print Jenkins admin password
+      shell: "cat /var/lib/jenkins/secrets/initialAdminPassword"
+      register: admin_password
+
+    - name: Print Jenkins login URL
+      debug:
+        msg: "Jenkins URL: http://{{ inventory_hostname }}:8080/"
+      when: jenkins_up.status == 200
+
+    - name: Print Jenkins admin password
+      debug:
+        msg: "Admin password: {{ admin_password.stdout }}"
+      when: jenkins_up.status == 200
+
+  vars:
+    jenkins_key_path: "{{ hostvars[inventory_hostname]['jenkins_key_path'] }}"
+
+  vars_files:
+    - "{{ inventory_dir }}/group_vars/jenkins_setup/vars.yml"
