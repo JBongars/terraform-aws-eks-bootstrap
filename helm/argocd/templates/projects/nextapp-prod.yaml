@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nextapp-prod
+  namespace: {{ .Release.Namespace }} 
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/JBongars/helm-next-deployment-template.git'
+    targetRevision: main
+    path: .
+    helm:
+      valueFiles:
+        - values-prod.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: nextapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true

@@ -1,3 +1,29 @@
+resource "aws_acm_certificate" "nextapp-dev" {
+  domain_name       = "menyala-dev.jasycx.link"
+  validation_method = "DNS"
+
+  tags = {
+    Environment = "development"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_acm_certificate" "nextapp-prod" {
+  domain_name       = "menyala.jasycx.link"
+  validation_method = "DNS"
+
+  tags = {
+    Environment = "production"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 module "eks_blueprints" {
   source = "github.com/aws-ia/terraform-aws-eks-blueprints.git"
 
@@ -60,8 +86,8 @@ module "eks_blueprints_kubernetes_addons" {
 
   # Add-ons
   enable_aws_load_balancer_controller = true
-  enable_metrics_server               = true
-  enable_aws_cloudwatch_metrics       = true
+  enable_metrics_server               = false
+  enable_aws_cloudwatch_metrics       = false
   enable_kubecost                     = true
   enable_gatekeeper                   = true
 

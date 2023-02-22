@@ -5,6 +5,9 @@
 region="us-east-1"
 cluster_name="my_cluster"
 
+# Run container with kube settings
+de awskube -v "${PWD}/.kube/:/root/.kube" --network host -p 8080:8080
+
 # connect kubectl, helm to aws cluster
 aws eks --region $region update-kubeconfig --name $cluster_name
 # kubectl get pods --kubeconfig ./.kube/config

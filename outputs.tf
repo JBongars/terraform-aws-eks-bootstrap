@@ -11,6 +11,14 @@ output "eks_cluster_endpoint" {
   value = module.eks_blueprints.eks_cluster_endpoint
 }
 
+output "nextapp_prod_ca_arn" {
+  value = aws_acm_certificate.nextapp-prod.arn
+}
+
+output "nextapp_dev_ca_arn" {
+  value = aws_acm_certificate.nextapp-dev.arn
+}
+
 output "nextjs_repo_arn" {
   value = module.nextapp_repo.repository_arn
 }

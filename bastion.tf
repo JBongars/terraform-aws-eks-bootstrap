@@ -7,7 +7,7 @@
 
 # resource "aws_security_group" "etp_bastion_host_security_group" {
 #   name        = "etp_bastion_host_security_group"
-#   description = "ETP Development Server Security Group"
+# #   description = "ETP Development Server Security Group"
 #   vpc_id      = module.vpc.vpc_id
 
 #   ingress {

@@ -1,14 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nextapp
+  name: nextapp-dev
   namespace: {{ .Release.Namespace }} 
 spec:
   project: default
   source:
     repoURL: 'https://github.com/JBongars/helm-next-deployment-template.git'
-    targetRevision: HEAD
+    targetRevision: main
     path: .
+    helm:
+      valueFiles:
+        - values-dev.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: nextapp
